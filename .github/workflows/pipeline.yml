@@ -19,7 +19,7 @@ jobs:
     steps:
 
       - name: ServiceNow CI/CD Apply Changes
-        uses: ServiceNow/sncicd-apply-changes@1.2.0
+        uses: ServiceNow/sncicd-apply-changes@2.0.0
         env:
           snowUsername: ${{ secrets.SN_KRISHNA }}
           snowPassword: ${{ secrets.SN_KRISHNAP }}
@@ -29,7 +29,7 @@ jobs:
 
       - name: ServiceNow CI/CD Publish App
         id: publish_app
-        uses: ServiceNow/sncicd-publish-app@1.2.0
+        uses: ServiceNow/sncicd-publish-app@2.0.0
         with:
           versionTemplate: 8.8
           versionFormat: template
