@@ -12,7 +12,7 @@
     initialize: function() {
     },
     // new development work for a kohler
-    type: 'apple label'
+    type: 'apple label Red'
 };]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
