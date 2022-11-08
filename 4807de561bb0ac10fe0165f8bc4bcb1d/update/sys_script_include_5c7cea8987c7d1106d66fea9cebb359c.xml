@@ -11,7 +11,7 @@
  pineapple_cacke.prototype = {
     initialize: function() {
     },
-     // new development work for a feature 1
+     //  new development work for a feature 1
     type: 'pineapple cacke'
 };
      
