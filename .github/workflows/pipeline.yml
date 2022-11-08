@@ -21,8 +21,8 @@ jobs:
       - name: ServiceNow CI/CD Apply Changes
         uses: ServiceNow/sncicd-apply-changes@1.2.1
         env:
-          snowUsername: ${{ secrets.SN_USERNAME }}
-          snowPassword: ${{ secrets.SN_PASSWORD }}
+          snowUsername: ${{ secrets.SN_KRISHNA }}
+          snowPassword: ${{ secrets.SN_KRISHNAP }}
           snowSourceInstance: ${{ secrets.SN_DEV_INSTANCE }}
           appSysID: ${{ secrets.SN_APP_SYSID }}
           branch: ${{ github.head_ref }}
@@ -34,8 +34,8 @@ jobs:
           versionTemplate: 8.8
           versionFormat: template
         env:
-          snowUsername: ${{ secrets.SN_USERNAME }}
-          snowPassword: ${{ secrets.SN_PASSWORD }}
+          snowUsername: ${{ secrets.SN_KRISHNA }}
+          snowPassword: ${{ secrets.SN_KRISHNAP }}
           snowSourceInstance: ${{ secrets.SN_DEV_INSTANCE }}
           appSysID: ${{ secrets.SN_APP_SYSID }}
           
@@ -65,8 +65,8 @@ jobs:
         with:
           version: ${{ needs.build.outputs.publishversion }}
         env:
-          snowUsername: ${{ secrets.SN_USERNAME }}
-          snowPassword: ${{ secrets.SN_PASSWORD }}
+          snowUsername: ${{ secrets.SN_DEV }}
+          snowPassword: ${{ secrets.SN_DEVP }}
           snowInstallInstance: ${{ secrets.SN_TEST_INSTANCE }}
           appSysID: ${{ secrets.SN_APP_SYSID }}
 
@@ -75,8 +75,8 @@ jobs:
         with:
           testSuiteSysId: ${{ secrets.SN_ATFTESTSUITE_SYSID }}
         env:
-          snowUsername: ${{ secrets.SN_USERNAME }}
-          snowPassword: ${{ secrets.SN_PASSWORD }}
+          snowUsername: ${{ secrets.SN_DEV  }}
+          snowPassword: ${{ secrets.SN_DEVP }}
           snowInstallInstance: ${{ secrets.SN_TEST_INSTANCE }}
 
       - name: ServiceNow CI/CD Rollback App
@@ -85,8 +85,8 @@ jobs:
         with:
           version: ${{steps.install_app.outputs.rollbackVersion}}
         env:
-          snowUsername: ${{ secrets.SN_USERNAME }}
-          snowPassword: ${{ secrets.SN_PASSWORD }}
+          snowUsername: ${{ secrets.SN_DEV }}
+          snowPassword: ${{ secrets.SN_DEVP }}
           snowInstallInstance: ${{ secrets.SN_TEST_INSTANCE }}
           appSysID: ${{ secrets.SN_APP_SYSID }}
 
@@ -96,25 +96,3 @@ jobs:
     # what to install.
     outputs:
       publishversion: ${{ needs.build.outputs.publishversion }}
-
-  deployprod:
-    # Purpose of this job is to Install App to a Prod instance. This should only 
-    # trigger if the feature branch has been merged to master after a successfully 
-    # completed pull request, hence the conditional for push to master. In other words,
-    # the first two jobs run on CI, then all three jobs run on CD. 
-    needs: test
-    name: Deploy to Prod
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-    steps:
-    
-      - name: ServiceNow CI/CD Install App
-        id: install_app_prod
-        uses: ServiceNow/sncicd-install-app@1.0.0
-        with:
-          version: ${{ needs.test.outputs.publishversion }}
-        env:
-          snowUsername: ${{ secrets.SN_USERNAME }}
-          snowPassword: ${{ secrets.SN_PASSWORD }}
-          snowInstallInstance: ${{ secrets.SN_PROD_INSTANCE }}
-          appSysID: ${{ secrets.SN_APP_SYSID }}
